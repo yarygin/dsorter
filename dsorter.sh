@@ -1,16 +1,26 @@
 # /usr/bin/bash
-DIR=$1
-if [[ -d "$DIR" || -L "$DIR" ]] ; then
-    for file in "$DIR"/*; do 
-    	if [[ ! -d "$file" && ! -L "$file" ]] ; then
-	     	ext=${file##*.}
-	     	filename=$(basename "$file")
-	    	if [[ ! -d "$DIR/$ext" && ! -L "$DIR/$ext" ]]; then
-	     		mkdir -v $DIR/$ext
-	     	fi
-	     	mv -v "$DIR/$filename" "$DIR/$ext/$filename"
-	    fi
-    done
+input=$1
+output=$2
+echo $#
+if [[ "$#" -eq 1 ]] ; then
+	output=$input
+fi
+if [[ -d "$output" || -L "$output" ]] ; then
+	if [[ -d "$input" || -L "$input" ]] ; then
+		for file in "$input"/*; do 
+			if [[ ! -d "$file" && ! -L "$file" ]] ; then
+				ext=${file##*.}
+				filename=$(basename "$file")
+				if [[ ! -d "$output/$ext" && ! -L "$output/$ext" ]]; then
+					mkdir -v $output/$ext
+				fi
+				mv -v "$input/$filename" "$output/$ext/$filename"
+			fi
+		done
+	else 
+		echo "$input is not a directory"
+	fi
 else 
-    echo "$DIR is not a directory"
+	echo "$output is not a directory"
+
 fi
