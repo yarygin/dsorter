@@ -1,7 +1,6 @@
 # /usr/bin/bash
 input=$1
 output=$2
-echo $#
 if [[ "$#" -eq 1 ]] ; then
 	output=$input
 fi
